@@ -37,8 +37,13 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
             <Icon />
           </InputLeftElement>
         )}
-        {currency && <InputLeftElement fontSize='19px' top='10px'>{currency}</InputLeftElement>}
+        {currency && (
+          <InputLeftElement fontSize="19px" top="10px">
+            {currency}
+          </InputLeftElement>
+        )}
         <ChakraInput
+          w={["100%", "100%", "400px"]}
           name={name}
           id={name}
           bg="gray.50"

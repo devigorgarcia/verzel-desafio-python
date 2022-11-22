@@ -47,8 +47,13 @@ export const LoginPage = () => {
   return (
     <>
       <Header />
-      <Flex align="center" justify="center">
-        <Grid w={["0", "0", "0", "50%"]}>
+      <Flex
+        align="center"
+        justify="center"
+        maxW="1400px"
+        margin={["0", "0", "0", "0", "0 auto"]}
+      >
+        <Grid w={["0", "0", "0", "50%", "50%", "100%"]}>
           <Image
             src="https://cdn.buttercms.com/PNF2L0j5R8G5eoOGHzwA"
             display={{ base: "none", lg: "block" }}
@@ -56,8 +61,7 @@ export const LoginPage = () => {
         </Grid>
         <Grid
           as="form"
-          mt="14"
-          width="50%"
+          width={["50%", "50%", "50%", "50%", "50%", "100%"]}
           justifyContent="center"
           p="30px 15px"
           borderRadius="5px"
