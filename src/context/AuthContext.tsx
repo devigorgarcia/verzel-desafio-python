@@ -2,6 +2,7 @@ import jwt_decode from "jwt-decode";
 import { createContext, ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
+import { toastSucess } from "../utils/toast";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -22,7 +23,6 @@ export const AuthContext = createContext<AuthContextData>(
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
-  const [token, setToken] = useState("");
 
   const login = async (data: ILogin) => {
     await api.post("/login/", data).then(async (res) => {
@@ -33,9 +33,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       let decoded: any = jwt_decode(token);
 
       if (decoded.is_admin) {
-        navigate("/admin/dashboard");
+        toastSucess("Login efetuado com sucesso");
+        setTimeout(() => {
+          navigate("/admin/dashboard");
+        }, 6500);
       } else {
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 6500);
       }
     });
   };

@@ -2,6 +2,7 @@ import { createContext, useState, ReactNode, useEffect } from "react";
 import { api } from "../api";
 import { IEditVehicle } from "../components/ModalEdit";
 import { ICreateVehicle } from "../components/ModalCreateVehicle";
+import { toastError, toastSucess } from "../utils/toast";
 
 interface IVehiclesChildren {
   children: ReactNode;
@@ -73,23 +74,41 @@ export const VehiclesProvider = ({ children }: IVehiclesChildren) => {
 
   const createNewVehicle = async (data: ICreateVehicle) => {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    await api.post("/vehicles/", data).then((res) => {
-      getAllVehicles();
-    });
+    await api
+      .post("/vehicles/", data)
+      .then((res) => {
+        toastSucess("Veiculo Cadastrado Com Sucesso");
+        getAllVehicles();
+      })
+      .catch((err) => {
+        toastError("Algo não de certo =(");
+      });
   };
 
   const editVehicle = async (data: IEditVehicle, id: string) => {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    await api.patch(`/vehicles/${id}/`, data).then((res) => {
-      getAllVehicles();
-    });
+    await api
+      .patch(`/vehicles/${id}/`, data)
+      .then((res) => {
+        toastSucess("Alteração feita com sucesso");
+        getAllVehicles();
+      })
+      .catch((err) => {
+        toastError("Algo não de certo =(");
+      });
   };
 
   const deleteVehicle = async (id: string) => {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    await api.delete(`/vehicles/${id}/`).then((res) => {
-      getAllVehicles();
-    });
+    await api
+      .delete(`/vehicles/${id}/`)
+      .then((res) => {
+        toastSucess("Veiculo deletado com sucesso");
+        getAllVehicles();
+      })
+      .catch((err) => {
+        toastError("Algo não de certo =(");
+      });
   };
 
   return (
