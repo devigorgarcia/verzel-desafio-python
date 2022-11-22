@@ -2,6 +2,7 @@ import { createContext, ReactNode } from "react";
 import { api } from "../api";
 import { toast } from "react-toastify";
 import { toastError, toastSucess } from "../utils/toast";
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface UserProviderProps {
   children: ReactNode;
@@ -22,15 +23,20 @@ export const UserContext = createContext<IUserContextData>(
 );
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const createNewUser = async (data: ICreateUser) => {
-    await api.post("/users/", data).then((res) => {
-      toastSucess("Cadastro efetuado com sucesso");
-    }).catch((err)=>{
-      toastError("Usuario já cadastrado")
-      setTimeout(()=>{
+  const navigate = useNavigate();
 
-      },5000)
-    });
+  const createNewUser = async (data: ICreateUser) => {
+    await api
+      .post("/users/", data)
+      .then((res) => {
+        toastSucess("Cadastro efetuado com sucesso");
+        setTimeout(() => {
+          navigate("/login");
+        }, 5000);
+      })
+      .catch((err) => {
+        toastError("Usuario já cadastrado");
+      });
   };
 
   return (
